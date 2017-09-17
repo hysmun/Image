@@ -5,17 +5,35 @@
  */
 package imagewindow;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 
 /**
  *
  * @author 'Toine
  */
+
+
+
+
 public class ImageWindows extends javax.swing.JFrame {
 
     /**
      * Creates new form ImageWindows
      */
+    
+    public static String ImagePath;
+    public static String ImageName;
+    public BufferedImage bufImage; 
+    
     public ImageWindows() {
         initComponents();
     }
@@ -29,10 +47,10 @@ public class ImageWindows extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        BeforePanel = new javax.swing.JPanel();
         AfterPanel = new javax.swing.JPanel();
         BeforeLabel = new javax.swing.JLabel();
         NowLabel = new javax.swing.JLabel();
+        BeforePanel = new javax.swing.JPanel();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
@@ -40,20 +58,6 @@ public class ImageWindows extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ImageWindow");
-
-        BeforePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        BeforePanel.setPreferredSize(new java.awt.Dimension(400, 400));
-
-        javax.swing.GroupLayout BeforePanelLayout = new javax.swing.GroupLayout(BeforePanel);
-        BeforePanel.setLayout(BeforePanelLayout);
-        BeforePanelLayout.setHorizontalGroup(
-            BeforePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 398, Short.MAX_VALUE)
-        );
-        BeforePanelLayout.setVerticalGroup(
-            BeforePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 398, Short.MAX_VALUE)
-        );
 
         AfterPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         AfterPanel.setPreferredSize(new java.awt.Dimension(400, 400));
@@ -72,6 +76,20 @@ public class ImageWindows extends javax.swing.JFrame {
         BeforeLabel.setText("Before editing");
 
         NowLabel.setText("Now");
+
+        BeforePanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        BeforePanel.setPreferredSize(new java.awt.Dimension(400, 400));
+
+        javax.swing.GroupLayout BeforePanelLayout = new javax.swing.GroupLayout(BeforePanel);
+        BeforePanel.setLayout(BeforePanelLayout);
+        BeforePanelLayout.setHorizontalGroup(
+            BeforePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 398, Short.MAX_VALUE)
+        );
+        BeforePanelLayout.setVerticalGroup(
+            BeforePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 398, Short.MAX_VALUE)
+        );
 
         FileMenuBar.setText("File");
 
@@ -97,26 +115,26 @@ public class ImageWindows extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AfterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BeforeLabel))
+                    .addComponent(BeforeLabel)
+                    .addComponent(BeforePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BeforePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NowLabel))
+                    .addComponent(NowLabel)
+                    .addComponent(AfterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BeforeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(NowLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(AfterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BeforePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BeforePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AfterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(443, 443, 443))
         );
 
         pack();
@@ -128,6 +146,20 @@ public class ImageWindows extends javax.swing.JFrame {
         System.out.println("Open Item");
         FileChooseImage fci = new FileChooseImage(this, true);
         fci.setVisible(true);
+        
+        if(ImagePath != null && ImageName != null)
+        {
+            System.out.println("Fichier choisi" + ImagePath);
+            try {
+                //fichier juste on l'affiche
+                bufImage = ImageIO.read(new File(ImagePath));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageWindows.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Erreur IO");
+            }
+            BeforePanel.add(new JLabel(new ImageIcon(bufImage)));
+            BeforePanel.invalidate();
+        }
     }//GEN-LAST:event_OpenItemMousePressed
 
     /**
