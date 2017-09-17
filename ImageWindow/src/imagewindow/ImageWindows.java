@@ -5,6 +5,8 @@
  */
 package imagewindow;
 
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author 'Toine
@@ -74,6 +76,11 @@ public class ImageWindows extends javax.swing.JFrame {
         FileMenuBar.setText("File");
 
         OpenItem.setText("Open image");
+        OpenItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                OpenItemMousePressed(evt);
+            }
+        });
         FileMenuBar.add(OpenItem);
 
         MenuBar.add(FileMenuBar);
@@ -113,7 +120,15 @@ public class ImageWindows extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void OpenItemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpenItemMousePressed
+        // TODO add your handling code here:
+        System.out.println("Open Item");
+        FileChooseImage fci = new FileChooseImage(this, true);
+        fci.setVisible(true);
+    }//GEN-LAST:event_OpenItemMousePressed
 
     /**
      * @param args the command line arguments
