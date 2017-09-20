@@ -61,6 +61,7 @@ public class FileChooseImage extends javax.swing.JDialog {
 
     private void FileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileChooserActionPerformed
         // TODO add your handling code here:
+        try{
         if (evt.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
             //create
             System.out.println("Create");
@@ -71,6 +72,11 @@ public class FileChooseImage extends javax.swing.JDialog {
             System.out.println("Cancel was selected");
             ImageWindows.ImageName = null;
             ImageWindows.ImagePath = null;
+        }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
         }
     }//GEN-LAST:event_FileChooserActionPerformed
 
