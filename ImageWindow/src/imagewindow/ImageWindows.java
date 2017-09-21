@@ -60,6 +60,8 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterScroll = new javax.swing.JScrollPane();
         AfterLabelIcon = new javax.swing.JLabel();
         editCB = new javax.swing.JComboBox<>();
+        doubleSpinner1 = new javax.swing.JSpinner();
+        doubleSpinner2 = new javax.swing.JSpinner();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
@@ -106,7 +108,11 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterLabelIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         AfterScroll.setViewportView(AfterLabelIcon);
 
-        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette" }));
+        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)" }));
+
+        doubleSpinner1.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.0d, null, 0.1d));
+
+        doubleSpinner2.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.0d, null, 0.1d));
 
         FileMenuBar.setText("File");
 
@@ -140,7 +146,9 @@ public class ImageWindows extends javax.swing.JFrame {
                             .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(okButton)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1)))
+                            .addComponent(jLabel1)
+                            .addComponent(doubleSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -166,6 +174,10 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AfterScroll)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jLabel1)
@@ -175,10 +187,13 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(91, 91, 91)
-                        .addComponent(okButton))
-                    .addComponent(AfterScroll)
-                    .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(89, 89, 89)
+                        .addComponent(doubleSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(okButton)
+                        .addGap(32, 32, 32)))
                 .addGap(116, 116, 116))
         );
 
@@ -230,6 +245,13 @@ public class ImageWindows extends javax.swing.JFrame {
                 CI.ROI(x1tmp, y1tmp, x2tmp, y2tmp);
                 
             }
+        }
+        if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
+        {
+            //expansion
+        }if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
+        {
+            //extraction
         }
         state = 0;
         RefreshAfter();
@@ -306,6 +328,8 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JLabel NowLabel;
     private javax.swing.JMenuItem OpenItem;
     private javax.swing.ButtonGroup buttonGroup;
+    private javax.swing.JSpinner doubleSpinner1;
+    private javax.swing.JSpinner doubleSpinner2;
     private javax.swing.JComboBox<String> editCB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
