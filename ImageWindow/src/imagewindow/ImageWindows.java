@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import ImageClass.*;
 import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  *
@@ -62,6 +63,7 @@ public class ImageWindows extends javax.swing.JFrame {
         doubleSpinner1 = new javax.swing.JSpinner();
         doubleSpinner2 = new javax.swing.JSpinner();
         jSpinner3 = new javax.swing.JSpinner();
+        validateButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
@@ -110,6 +112,13 @@ public class ImageWindows extends javax.swing.JFrame {
 
         doubleSpinner2.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.0d, null, 0.1d));
 
+        validateButton.setText("valider");
+        validateButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                validateButtonMousePressed(evt);
+            }
+        });
+
         FileMenuBar.setText("File");
 
         OpenItem.setText("Open image");
@@ -155,7 +164,10 @@ public class ImageWindows extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AfterScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NowLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(NowLabel)
+                        .addGap(36, 36, 36)
+                        .addComponent(validateButton)))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -163,10 +175,11 @@ public class ImageWindows extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BeforeLabel)
-                            .addComponent(NowLabel)))
+                            .addComponent(NowLabel)
+                            .addComponent(validateButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -288,6 +301,19 @@ public class ImageWindows extends javax.swing.JFrame {
             state=1;
         }
     }//GEN-LAST:event_BeforeLabelIconMouseReleased
+
+    private void validateButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validateButtonMousePressed
+        // TODO add your handling code here:
+        bufImage = new BufferedImage(CI.bi.getWidth(), CI.bi.getHeight(), CI.bi.getType());
+        Graphics g = bufImage.getGraphics();
+        g.drawImage(CI.bi, 0, 0, null);
+        g.dispose();
+        ImageIcon Ibefore = new ImageIcon(bufImage);
+        BeforeLabelIcon.setIcon(Ibefore);
+        jSpinner1.setValue(bufImage.getWidth());
+        jSpinner2.setValue(bufImage.getHeight());
+        state=0;
+    }//GEN-LAST:event_validateButtonMousePressed
     
     public void RefreshAfter()
     {
@@ -349,5 +375,6 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
     private javax.swing.JButton okButton;
+    private javax.swing.JButton validateButton;
     // End of variables declaration//GEN-END:variables
 }
