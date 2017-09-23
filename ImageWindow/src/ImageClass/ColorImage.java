@@ -74,4 +74,22 @@ public class ColorImage{
         }
         setSize(x2-x1, y2-y1);
     }
+    
+    public void palette(int x, int y,int red, int green, int blue)
+    {
+        Color replace = new Color(red, green, blue);
+        Color tmpC = new Color(bi.getRGB(x, y));
+        Color tmp;
+        for(int i=0; i<bi.getWidth();i++)
+        {
+            for(int j=0; j<bi.getHeight(); j++)
+            {
+                tmp = new Color(bi.getRGB(i, j));
+                if(tmp.equals(tmpC))
+                {
+                    bi.setRGB(i, j, replace.getRGB());
+                }
+            }
+        }
+    }
 }

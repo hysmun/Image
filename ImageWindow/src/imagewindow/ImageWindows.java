@@ -10,6 +10,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import ImageClass.*;
+import java.awt.Color;
 
 /**
  *
@@ -53,8 +54,6 @@ public class ImageWindows extends javax.swing.JFrame {
         jSpinner1 = new javax.swing.JSpinner();
         jSpinner2 = new javax.swing.JSpinner();
         okButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         BeforeScroll = new javax.swing.JScrollPane();
         BeforeLabelIcon = new javax.swing.JLabel();
         AfterScroll = new javax.swing.JScrollPane();
@@ -62,6 +61,7 @@ public class ImageWindows extends javax.swing.JFrame {
         editCB = new javax.swing.JComboBox<>();
         doubleSpinner1 = new javax.swing.JSpinner();
         doubleSpinner2 = new javax.swing.JSpinner();
+        jSpinner3 = new javax.swing.JSpinner();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
@@ -84,10 +84,6 @@ public class ImageWindows extends javax.swing.JFrame {
                 okButtonActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("Largeur");
-
-        jLabel2.setText("hauteur");
 
         BeforeScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         BeforeScroll.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -140,15 +136,17 @@ public class ImageWindows extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(okButton)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(doubleSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                                .addComponent(jSpinner2, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                                .addComponent(okButton)
+                                .addComponent(jSpinner3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13))
+                            .addComponent(doubleSpinner1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -179,19 +177,17 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(119, 119, 119)
                         .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(89, 89, 89)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(doubleSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(99, 99, 99)
                         .addComponent(okButton)
                         .addGap(32, 32, 32)))
                 .addGap(116, 116, 116))
@@ -243,7 +239,15 @@ public class ImageWindows extends javax.swing.JFrame {
             if(state == 2)
             {
                 CI.ROI(x1tmp, y1tmp, x2tmp, y2tmp);
-                
+                state = 0;
+            }
+        }
+        if(((String)editCB.getSelectedItem()).equals("Palette"))
+        {
+            if(state == 1)
+            {
+                CI.palette(x1tmp, y1tmp, (int)jSpinner1.getValue(), (int)jSpinner2.getValue(), (int)jSpinner3.getValue());
+                state = 0;
             }
         }
         if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
@@ -253,7 +257,7 @@ public class ImageWindows extends javax.swing.JFrame {
         {
             //extraction
         }
-        state = 0;
+        
         RefreshAfter();
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -272,6 +276,16 @@ public class ImageWindows extends javax.swing.JFrame {
                 y2tmp = evt.getY();
             }
             state++;
+        }
+        if(((String)editCB.getSelectedItem()).equals("Palette"))
+        {
+            x1tmp = evt.getX();
+            y2tmp = evt.getY();
+            Color tmpC = new Color(CI.bi.getRGB(x1tmp, y1tmp));
+            jSpinner1.setValue(tmpC.getRed());
+            jSpinner2.setValue(tmpC.getGreen());
+            jSpinner3.setValue(tmpC.getBlue());
+            state=1;
         }
     }//GEN-LAST:event_BeforeLabelIconMouseReleased
     
@@ -331,10 +345,9 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JSpinner doubleSpinner1;
     private javax.swing.JSpinner doubleSpinner2;
     private javax.swing.JComboBox<String> editCB;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JSpinner jSpinner3;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }
