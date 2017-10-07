@@ -76,9 +76,9 @@ public class ImageWindows extends javax.swing.JFrame {
 
         NowLabel.setText("Now");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 0));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 0));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
 
         okButton.setText("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +107,11 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterScroll.setViewportView(AfterLabelIcon);
 
         editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)" }));
+        editCB.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                editCBMouseReleased(evt);
+            }
+        });
 
         doubleSpinner1.setModel(new javax.swing.SpinnerNumberModel(1.0d, 0.0d, null, 0.1d));
 
@@ -144,24 +149,27 @@ public class ImageWindows extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                                .addComponent(jSpinner2, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                                .addComponent(okButton)
-                                .addComponent(jSpinner3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(13, 13, 13))
-                            .addComponent(doubleSpinner1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)))
-                .addGap(26, 26, 26)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(doubleSpinner1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(doubleSpinner2)
+                                .addGap(1, 1, 1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 34, Short.MAX_VALUE)
+                                .addComponent(okButton)
+                                .addGap(31, 31, 31))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AfterScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -183,27 +191,25 @@ public class ImageWindows extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AfterScroll)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
+                        .addGap(122, 122, 122)
                         .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(220, 220, 220)
                         .addComponent(doubleSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                         .addComponent(okButton)
-                        .addGap(32, 32, 32)))
-                .addGap(116, 116, 116))
+                        .addGap(34, 34, 34))
+                    .addComponent(BeforeScroll))
+                .addGap(50, 50, 50))
         );
 
         pack();
@@ -242,35 +248,43 @@ public class ImageWindows extends javax.swing.JFrame {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         // TODO add your handling code here:
-        CI.setBi(bufImage);
-        if(((String)editCB.getSelectedItem()).equals("Taille"))
+        try
         {
-            CI.setSize((int)jSpinner1.getValue(), (int)jSpinner2.getValue());
-        }
-        if(((String)editCB.getSelectedItem()).equals("ROI") )
-        {
-            if(state == 2)
+            CI.setBi(bufImage);
+            if(((String)editCB.getSelectedItem()).equals("Taille"))
             {
-                CI.ROI(x1tmp, y1tmp, x2tmp, y2tmp);
-                state = 0;
+                CI.setSize((int)jSpinner1.getValue(), (int)jSpinner2.getValue());
+            }
+            if(((String)editCB.getSelectedItem()).equals("ROI") )
+            {
+                if(state == 2)
+                {
+                    CI.ROI(x1tmp, y1tmp, x2tmp, y2tmp);
+                    state = 0;
+                }
+            }
+            if(((String)editCB.getSelectedItem()).equals("Palette"))
+            {
+                if(state == 1)
+                {
+                    CI.palette(x1tmp, y1tmp, (int)jSpinner1.getValue(), (int)jSpinner2.getValue(), (int)jSpinner3.getValue());
+                    state = 0;
+                }
+            }
+            if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
+            {
+                //expansion
+            }if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
+            {
+                //extraction retrecir
+                CI.extraction((double)doubleSpinner1.getValue(), (double)doubleSpinner2.getValue());
             }
         }
-        if(((String)editCB.getSelectedItem()).equals("Palette"))
+        catch(Exception e)
         {
-            if(state == 1)
-            {
-                CI.palette(x1tmp, y1tmp, (int)jSpinner1.getValue(), (int)jSpinner2.getValue(), (int)jSpinner3.getValue());
-                state = 0;
-            }
+            System.out.println("Erreur Image :" + e.getMessage() + "\n\n");
+            System.out.println(e.getStackTrace());
         }
-        if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
-        {
-            //expansion
-        }if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
-        {
-            //extraction
-        }
-        
         RefreshAfter();
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -314,6 +328,36 @@ public class ImageWindows extends javax.swing.JFrame {
         jSpinner2.setValue(bufImage.getHeight());
         state=0;
     }//GEN-LAST:event_validateButtonMousePressed
+
+    private void editCBMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editCBMouseReleased
+        // TODO add your handling code here:
+        if(((String)editCB.getSelectedItem()).equals("Taille"))
+        {
+            jSpinner1.setValue(bufImage.getWidth());
+            jSpinner2.setValue(bufImage.getHeight());
+            jSpinner3.setValue(0);
+        }
+        if(((String)editCB.getSelectedItem()).equals("ROI") )
+        {
+            jSpinner1.setValue(0);
+            jSpinner2.setValue(0);
+            jSpinner3.setValue(0);
+        }
+        if(((String)editCB.getSelectedItem()).equals("Palette"))
+        {
+           jSpinner1.setValue(0);
+           jSpinner2.setValue(0);
+           jSpinner3.setValue(0);
+        }
+        if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
+        {
+            
+        }if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
+        {
+            
+        }
+        state=0;
+    }//GEN-LAST:event_editCBMouseReleased
     
     public void RefreshAfter()
     {

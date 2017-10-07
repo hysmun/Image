@@ -21,7 +21,7 @@ public class GreyImage {
     }
 
     public void setBi(BufferedImage tbi) {
-        this.bi = new BufferedImage(tbi.getWidth(), tbi.getHeight(), tbi.getType());
+        this.bi = new BufferedImage(tbi.getWidth(), tbi.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
         Graphics g = this.bi.getGraphics();
         g.drawImage(tbi, 0, 0, null);
         g.dispose();
@@ -56,6 +56,12 @@ public class GreyImage {
     {
         Color tmp = new Color(grey, grey, grey);
         bi.setRGB(i, j, tmp.getRGB());
+    }
+    
+    public int getGrey(int i, int j)
+    {
+        Color tmpC = new Color(bi.getRGB(i, j));
+        return tmpC.getRed();
     }
     
     public void setSize(int i, int j)
