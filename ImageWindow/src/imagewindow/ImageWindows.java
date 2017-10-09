@@ -321,7 +321,6 @@ public class ImageWindows extends javax.swing.JFrame {
         
         try
         {
-            //Thread.sleep(1000);
             System.out.println("OK");
             CI.setBi(bufImage);
             if(((String)editCB.getSelectedItem()).equals("Taille"))
@@ -370,7 +369,6 @@ public class ImageWindows extends javax.swing.JFrame {
             {
                 CI.Egalisation();
             }
-            //Thread.sleep(1000);
         }
         catch(Exception e)
         {
@@ -434,6 +432,7 @@ public class ImageWindows extends javax.swing.JFrame {
     private void histoButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_histoButtonMouseReleased
         // TODO add your handling code here:
         System.out.println("Histo");
+        CI.setBi(bufImage);
         if(CI.type == 2)
         {
             BufferedImage ret = CI.Histogramme();
