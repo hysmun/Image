@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import ImageClass.*;
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -64,10 +65,17 @@ public class ImageWindows extends javax.swing.JFrame {
         doubleSpinner2 = new javax.swing.JSpinner();
         jSpinner3 = new javax.swing.JSpinner();
         validateButton = new javax.swing.JButton();
+        stateLabel = new javax.swing.JLabel();
+        grisButton = new javax.swing.JButton();
+        histoButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
         EditMenuBar = new javax.swing.JMenu();
+        lenaMenu = new javax.swing.JMenu();
+        lenaGrisMenu = new javax.swing.JMenu();
+        testMenu = new javax.swing.JMenu();
+        testGrisMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ImageWindow");
@@ -76,9 +84,9 @@ public class ImageWindows extends javax.swing.JFrame {
 
         NowLabel.setText("Now");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         okButton.setText("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,10 +114,10 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterLabelIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         AfterScroll.setViewportView(AfterLabelIcon);
 
-        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)" }));
-        editCB.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                editCBMouseReleased(evt);
+        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation" }));
+        editCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCBActionPerformed(evt);
             }
         });
 
@@ -121,6 +129,22 @@ public class ImageWindows extends javax.swing.JFrame {
         validateButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 validateButtonMousePressed(evt);
+            }
+        });
+
+        stateLabel.setText("En attente de travail");
+
+        grisButton.setText("Gris");
+        grisButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                grisButtonMouseReleased(evt);
+            }
+        });
+
+        histoButton.setText("Histogramme");
+        histoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                histoButtonMouseReleased(evt);
             }
         });
 
@@ -139,6 +163,38 @@ public class ImageWindows extends javax.swing.JFrame {
         EditMenuBar.setText("Edit");
         MenuBar.add(EditMenuBar);
 
+        lenaMenu.setText("Lena1");
+        lenaMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lenaMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(lenaMenu);
+
+        lenaGrisMenu.setText("LenaGris");
+        lenaGrisMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lenaGrisMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(lenaGrisMenu);
+
+        testMenu.setText("Test1");
+        testMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                testMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(testMenu);
+
+        testGrisMenu.setText("TestGris");
+        testGrisMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                testGrisMenuMouseClicked(evt);
+            }
+        });
+        MenuBar.add(testGrisMenu);
+
         setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -150,26 +206,35 @@ public class ImageWindows extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(grisButton)
+                        .addGap(108, 108, 108)
+                        .addComponent(histoButton)
+                        .addGap(185, 185, 185)
+                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(doubleSpinner1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(doubleSpinner2)
-                                .addGap(1, 1, 1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 34, Short.MAX_VALUE)
-                                .addComponent(okButton)
-                                .addGap(31, 31, 31))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(44, 44, 44)
+                                .addGap(35, 35, 35)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSpinner3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(doubleSpinner1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(doubleSpinner2)
+                                        .addGap(1, 1, 1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 28, Short.MAX_VALUE)
+                                        .addComponent(okButton)
+                                        .addGap(40, 40, 40)))
+                                .addGap(44, 44, 44))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(stateLabel)
+                                .addGap(31, 31, 31)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AfterScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -187,7 +252,9 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BeforeLabel)
                             .addComponent(NowLabel)
-                            .addComponent(validateButton)))
+                            .addComponent(validateButton)
+                            .addComponent(grisButton)
+                            .addComponent(histoButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -201,7 +268,9 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(220, 220, 220)
+                        .addGap(112, 112, 112)
+                        .addComponent(stateLabel)
+                        .addGap(92, 92, 92)
                         .addComponent(doubleSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(doubleSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,8 +317,12 @@ public class ImageWindows extends javax.swing.JFrame {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         // TODO add your handling code here:
+        stateLabel.setText("Travail en cours");
+        
         try
         {
+            //Thread.sleep(1000);
+            System.out.println("OK");
             CI.setBi(bufImage);
             if(((String)editCB.getSelectedItem()).equals("Taille"))
             {
@@ -274,18 +347,39 @@ public class ImageWindows extends javax.swing.JFrame {
             if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
             {
                 //expansion
-            }if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
+                CI.expansion((double)doubleSpinner1.getValue(), (double)doubleSpinner2.getValue());
+            }
+            if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
             {
                 //extraction retrecir
                 CI.extraction((double)doubleSpinner1.getValue(), (double)doubleSpinner2.getValue());
             }
+            if(((String)editCB.getSelectedItem()).equals("Seuillage"))
+            {
+                CI.Seuillage((int)jSpinner1.getValue());
+            }
+            if(((String)editCB.getSelectedItem()).equals("Multi-seuillage"))
+            {
+                int[] ttmp  = new int[3];
+                ttmp[0] = (int)jSpinner1.getValue();
+                ttmp[1] = (int)jSpinner2.getValue();
+                ttmp[2] = (int)jSpinner3.getValue();
+                CI.MultiSeuillage(ttmp);
+            }
+            if(((String)editCB.getSelectedItem()).equals("Egalisation"))
+            {
+                CI.Egalisation();
+            }
+            //Thread.sleep(1000);
         }
         catch(Exception e)
         {
             System.out.println("Erreur Image :" + e.getMessage() + "\n\n");
             System.out.println(e.getStackTrace());
         }
+        
         RefreshAfter();
+        stateLabel.setText("En attente de travail");
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void BeforeLabelIconMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BeforeLabelIconMouseReleased
@@ -307,8 +401,8 @@ public class ImageWindows extends javax.swing.JFrame {
         if(((String)editCB.getSelectedItem()).equals("Palette"))
         {
             x1tmp = evt.getX();
-            y2tmp = evt.getY();
-            Color tmpC = new Color(CI.bi.getRGB(x1tmp, y1tmp));
+            y1tmp = evt.getY();
+            Color tmpC = new Color(bufImage.getRGB(x1tmp, y1tmp));
             jSpinner1.setValue(tmpC.getRed());
             jSpinner2.setValue(tmpC.getGreen());
             jSpinner3.setValue(tmpC.getBlue());
@@ -327,37 +421,160 @@ public class ImageWindows extends javax.swing.JFrame {
         jSpinner1.setValue(bufImage.getWidth());
         jSpinner2.setValue(bufImage.getHeight());
         state=0;
+        System.out.println("Valider");
     }//GEN-LAST:event_validateButtonMousePressed
 
-    private void editCBMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editCBMouseReleased
+    private void grisButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grisButtonMouseReleased
         // TODO add your handling code here:
-        if(((String)editCB.getSelectedItem()).equals("Taille"))
+        CI.toGrey();
+        RefreshAfter();
+        System.out.println("Gris");
+    }//GEN-LAST:event_grisButtonMouseReleased
+
+    private void histoButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_histoButtonMouseReleased
+        // TODO add your handling code here:
+        System.out.println("Histo");
+        if(CI.type == 2)
+        {
+            BufferedImage ret = CI.Histogramme();
+            ImageIcon retI = new ImageIcon(ret);
+            JOptionPane.showMessageDialog(this, null, "histogramme", JOptionPane.INFORMATION_MESSAGE, retI);
+        }
+        else if(CI.type == 1)
+        {
+            BufferedImage ret = CI.HistogrammeColor();
+            ImageIcon retI = new ImageIcon(ret);
+            JOptionPane.showMessageDialog(this, null, "histogramme Couleur", JOptionPane.INFORMATION_MESSAGE, retI);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Il faut d'abort passer l'image en nuance de gris", "Erreur", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_histoButtonMouseReleased
+
+    private void lenaMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenaMenuMouseClicked
+        // TODO add your handling code here:
+        try {
+                //fichier juste on l'affiche
+                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Lena-Soderberg-512x512.jpg";
+                System.out.println("Lena normal choisi");
+                File f = new File(ImagePath);
+                bufImage = ImageIO.read(f);
+                
+                CI = new ColorImage(bufImage);
+                ImageIcon Ibefore = new ImageIcon(bufImage);
+                ImageIcon Iafter = new ImageIcon(CI.bi);
+                CI.type = 1;
+                BeforeLabelIcon.setIcon(Ibefore);
+                AfterLabelIcon.setIcon(Iafter);
+                jSpinner1.setValue(bufImage.getWidth());
+                jSpinner2.setValue(bufImage.getHeight());
+                state= 0;
+                
+            }
+            catch (Exception ex) {
+
+                System.out.println("Erreur IO" + ex.getMessage());
+            } 
+    }//GEN-LAST:event_lenaMenuMouseClicked
+
+    private void lenaGrisMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenaGrisMenuMouseClicked
+        // TODO add your handling code here:
+        try {
+                //fichier juste on l'affiche
+                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Lena-Soderberg-512x512.jpg";
+                System.out.println("Lena gris choisi");
+                File f = new File(ImagePath);
+                bufImage = ImageIO.read(f);
+                
+                CI = new ColorImage(bufImage);
+                CI.toGrey();
+                bufImage = new BufferedImage(CI.bi.getWidth(), CI.bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+                Graphics g = bufImage.getGraphics();
+                g.drawImage(CI.bi, 0, 0, null);
+                g.dispose();
+                ImageIcon Ibefore = new ImageIcon(bufImage);
+                ImageIcon Iafter = new ImageIcon(CI.bi);
+                BeforeLabelIcon.setIcon(Ibefore);
+                AfterLabelIcon.setIcon(Iafter);
+                jSpinner1.setValue(bufImage.getWidth());
+                jSpinner2.setValue(bufImage.getHeight());
+                state= 0;
+            }
+            catch (Exception ex) {
+
+                System.out.println("Erreur IO" + ex.getMessage());
+            } 
+    }//GEN-LAST:event_lenaGrisMenuMouseClicked
+
+    private void testMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_testMenuMouseClicked
+        // TODO add your handling code here:
+        try {
+                //fichier juste on l'affiche
+                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Blue cross.png";
+                System.out.println("blue cross normal choisi");
+                File f = new File(ImagePath);
+                bufImage = ImageIO.read(f);
+                
+                CI = new ColorImage(bufImage);
+                ImageIcon Ibefore = new ImageIcon(bufImage);
+                ImageIcon Iafter = new ImageIcon(CI.bi);
+                BeforeLabelIcon.setIcon(Ibefore);
+                AfterLabelIcon.setIcon(Iafter);
+                jSpinner1.setValue(bufImage.getWidth());
+                jSpinner2.setValue(bufImage.getHeight());
+                state= 0;
+            }
+            catch (Exception ex) {
+
+                System.out.println("Erreur IO" + ex.getMessage());
+            } 
+    }//GEN-LAST:event_testMenuMouseClicked
+
+    private void testGrisMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_testGrisMenuMouseClicked
+        // TODO add your handling code here:
+        try {
+                //fichier juste on l'affiche
+                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Blue cross.png";
+                System.out.println("blue cross gris choisi");
+                File f = new File(ImagePath);
+                bufImage = ImageIO.read(f);
+                
+                CI = new ColorImage(bufImage);
+                CI.toGrey();
+                
+                bufImage = new BufferedImage(CI.bi.getWidth(), CI.bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+                Graphics g = bufImage.getGraphics();
+                g.drawImage(CI.bi, 0, 0, null);
+                g.dispose();
+                ImageIcon Ibefore = new ImageIcon(bufImage);
+                ImageIcon Iafter = new ImageIcon(CI.bi);
+                BeforeLabelIcon.setIcon(Ibefore);
+                AfterLabelIcon.setIcon(Iafter);
+                jSpinner1.setValue(bufImage.getWidth());
+                jSpinner2.setValue(bufImage.getHeight());
+                state= 0;
+            }
+            catch (Exception ex) {
+
+                System.out.println("Erreur IO" + ex.getMessage());
+            } 
+    }//GEN-LAST:event_testGrisMenuMouseClicked
+
+    private void editCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCBActionPerformed
+        // TODO add your handling code here:
+        jSpinner1.setValue(0);
+        jSpinner2.setValue(0);
+        jSpinner3.setValue(0);
+        doubleSpinner1.setValue(1);
+        doubleSpinner2.setValue(1);
+        if(((String)editCB.getSelectedItem()).equals("Taille") && bufImage != null)
         {
             jSpinner1.setValue(bufImage.getWidth());
             jSpinner2.setValue(bufImage.getHeight());
-            jSpinner3.setValue(0);
-        }
-        if(((String)editCB.getSelectedItem()).equals("ROI") )
-        {
-            jSpinner1.setValue(0);
-            jSpinner2.setValue(0);
-            jSpinner3.setValue(0);
-        }
-        if(((String)editCB.getSelectedItem()).equals("Palette"))
-        {
-           jSpinner1.setValue(0);
-           jSpinner2.setValue(0);
-           jSpinner3.setValue(0);
-        }
-        if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
-        {
-            
-        }if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
-        {
-            
         }
         state=0;
-    }//GEN-LAST:event_editCBMouseReleased
+    }//GEN-LAST:event_editCBActionPerformed
     
     public void RefreshAfter()
     {
@@ -415,10 +632,17 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JSpinner doubleSpinner1;
     private javax.swing.JSpinner doubleSpinner2;
     private javax.swing.JComboBox<String> editCB;
+    private javax.swing.JButton grisButton;
+    private javax.swing.JButton histoButton;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
+    private javax.swing.JMenu lenaGrisMenu;
+    private javax.swing.JMenu lenaMenu;
     private javax.swing.JButton okButton;
+    private javax.swing.JLabel stateLabel;
+    private javax.swing.JMenu testGrisMenu;
+    private javax.swing.JMenu testMenu;
     private javax.swing.JButton validateButton;
     // End of variables declaration//GEN-END:variables
 }

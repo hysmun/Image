@@ -6,6 +6,7 @@
 package imagewindow;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -19,6 +20,9 @@ public class FileChooseImage extends javax.swing.JDialog {
     public FileChooseImage(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        FileNameExtensionFilter fil = new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp");
+        //FileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif", "bmp"));
+        FileChooser.setFileFilter(fil);
     }
 
     /**
@@ -72,6 +76,7 @@ public class FileChooseImage extends javax.swing.JDialog {
             System.out.println("Cancel was selected");
             ImageWindows.ImageName = null;
             ImageWindows.ImagePath = null;
+            this.dispose();
         }
         }
         catch(Exception e)
