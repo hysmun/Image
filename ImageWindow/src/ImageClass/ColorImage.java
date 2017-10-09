@@ -15,28 +15,12 @@ import java.awt.image.BufferedImage;
  * @author 'Toine
  */
 public class ColorImage{
+    //<editor-fold defaultstate="collapsed" desc="Variable">
     public BufferedImage bi;
     public int type; // 1 pour couleur      2 pour gris
+//</editor-fold>
 
-    public BufferedImage getBi() {
-        return bi;
-    }
-
-    public void setBi(BufferedImage tbi) {
-        this.bi = new BufferedImage(tbi.getWidth(), tbi.getHeight(), tbi.getType());
-        Graphics g = this.bi.getGraphics();
-        g.drawImage(tbi, 0, 0, null);
-        g.dispose();
-        if(tbi.getType() == BufferedImage.TYPE_BYTE_GRAY)
-        {
-            type = 2;
-        }
-        else
-        {
-            type = 1;
-        }
-    }
-    
+    //<editor-fold defaultstate="collapsed" desc="Constructeur">
     public ColorImage()
     {
         type = 1;
@@ -54,25 +38,36 @@ public class ColorImage{
             type = 1;
         }
     }
+    //</editor-fold>
     
-    int getGreen(int i, int j)
-    {
+    //<editor-fold defaultstate="collapsed" desc="Getteur">
+    int getGreen(int i, int j){
         Color tmpC = new Color(bi.getRGB(i, j));
         return tmpC.getGreen();
     }
-    int getBlue(int i, int j)
-    {
+    
+    int getBlue(int i, int j){
         Color tmpC = new Color(bi.getRGB(i, j));
         return tmpC.getBlue();
     }
-    int getRed(int i, int j)
-    {
+    
+    int getRed(int i, int j){
         Color tmpC = new Color(bi.getRGB(i, j));
         return tmpC.getRed();
     }
     
-    public void setSize(int i, int j)
-    {
+    public int getGrey(int i, int j){
+        Color tmpC = new Color(bi.getRGB(i, j));
+        return tmpC.getRed();
+    }
+    
+    public BufferedImage getBi() {
+        return bi;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Setteur">
+    public void setSize(int i, int j){
         BufferedImage tmp = new BufferedImage(i, j, bi.getType());
         Graphics g = tmp.getGraphics();
         g.fillRect(0, 0, i, j);
@@ -81,20 +76,29 @@ public class ColorImage{
         this.bi = tmp;
     }
     
-    public void setGrey(int i, int j, int grey)
-    {
+    public void setGrey(int i, int j, int grey){
         Color tmp = new Color(grey, grey, grey);
         bi.setRGB(i, j, tmp.getRGB());
     }
     
-    public int getGrey(int i, int j)
-    {
-        Color tmpC = new Color(bi.getRGB(i, j));
-        return tmpC.getRed();
+    public void setBi(BufferedImage tbi) {
+        this.bi = new BufferedImage(tbi.getWidth(), tbi.getHeight(), tbi.getType());
+        Graphics g = this.bi.getGraphics();
+        g.drawImage(tbi, 0, 0, null);
+        g.dispose();
+        if(tbi.getType() == BufferedImage.TYPE_BYTE_GRAY)
+        {
+            type = 2;
+        }
+        else
+        {
+            type = 1;
+        }
     }
+    //</editor-fold>
     
-    public void ROI(int x1, int y1, int x2, int y2)
-    {
+    //<editor-fold defaultstate="collapsed" desc="ROI">
+    public void ROI(int x1, int y1, int x2, int y2){
         for(int i =0; i < (x2-x1); i++)
         {
             for(int j =0; j < (y2-y1); j++)
@@ -104,9 +108,10 @@ public class ColorImage{
         }
         setSize(x2-x1, y2-y1);
     }
+//</editor-fold>
     
-    public void palette(int x, int y,int red, int green, int blue)
-    {
+    //<editor-fold defaultstate="collapsed" desc="palette">
+    public void palette(int x, int y,int red, int green, int blue){
         Color replace = new Color(red, green, blue);
         Color tmpC = new Color(bi.getRGB(x, y));
         Color tmp;
@@ -122,9 +127,10 @@ public class ColorImage{
             }
         }
     }
+//</editor-fold>
     
-    public void expansion(double x, double y)
-    {
+    //<editor-fold defaultstate="collapsed" desc="Extraction - expansion">
+    public void expansion(double x, double y){
         int i=0, j=0;
         BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
         Graphics g = tmpBi.getGraphics();
@@ -165,8 +171,7 @@ public class ColorImage{
         }
     }
     
-    public void extraction(double x, double y) // retrecir
-    {
+    public void extraction(double x, double y){
         int i=0, j=0;
         int V1, V2, VTOT;
         int m=0, n=0;
@@ -177,11 +182,11 @@ public class ColorImage{
             Graphics g = tmpBi.getGraphics();
             g.drawImage(bi, 0, 0, null);
             g.dispose();
-
+            
             //changement de la taille
             setSize((int)(bi.getWidth()/x), (int)(bi.getHeight()/y));
-
-
+            
+            
             System.out.println("Width : "+bi.getWidth()+" height : "+bi.getHeight());
             for(i=0; i<bi.getWidth(); i++)
             {
@@ -203,9 +208,10 @@ public class ColorImage{
         }
         
     }
+//</editor-fold>
     
-    public void toGrey()
-    {
+    //<editor-fold defaultstate="collapsed" desc="toGrey">
+    public void toGrey(){
         int i, j;
         int tmp;
         for(i=0; i<bi.getWidth(); i++)
@@ -215,13 +221,14 @@ public class ColorImage{
                 Color tmpC = new Color(bi.getRGB(i, j));
                 tmp = (tmpC.getRed() + tmpC.getGreen() + tmpC.getBlue())/3;
                 setGrey(i, j, tmp);
-            } 
+            }
         }
         type = 2;
     }
+//</editor-fold>
     
-    public void Seuillage(int seuil)
-    {
+    //<editor-fold defaultstate="collapsed" desc="Seuillage">
+    public void Seuillage(int seuil){
         int i, j;
         
         for(i=0; i<bi.getWidth(); i++)
@@ -236,8 +243,7 @@ public class ColorImage{
         }
     }
     
-    public void MultiSeuillage(int[] seuil)
-    {
+    public void MultiSeuillage(int[] seuil){
         int i, j, k;
         
         for(i=0; i<bi.getWidth(); i++)
@@ -250,15 +256,16 @@ public class ColorImage{
                     setGrey(i,j, 130);
                 else if(getGrey(i,j) >= seuil[1] && getGrey(i,j) < seuil[2])
                     setGrey(i, j, 200);
-                else 
+                else
                     setGrey(i, j, 255);
-                       
+                
             }
         }
     }
+//</editor-fold>
     
-    public BufferedImage Histogramme()
-    {
+    //<editor-fold defaultstate="collapsed" desc="Histogramme">
+    public BufferedImage Histogramme(){
         int v = 700, h = 300, border = 20;
         BufferedImage ret = new BufferedImage(v, h, BufferedImage.TYPE_BYTE_GRAY);
         int i, j;
@@ -297,8 +304,7 @@ public class ColorImage{
         return ret;
     }
     
-    public BufferedImage HistogrammeColor()
-    {
+    public BufferedImage HistogrammeColor(){
         int v = 700, h = 300, border = 20;
         BufferedImage ret = new BufferedImage(v, h, BufferedImage.TYPE_INT_RGB);
         int i, j;
@@ -364,8 +370,7 @@ public class ColorImage{
         return ret;
     }
     
-    public void Egalisation()
-    {
+    public void Egalisation(){
         int i, j, k;
         int[] freq = new int[256];
         int wid = bi.getWidth(), hei = bi.getHeight();
@@ -391,55 +396,10 @@ public class ColorImage{
             }
         }
     }
+//</editor-fold>
     
-    static int addColor(int a, int b)
-    {
-        int tmp;
-        Color ca = new Color(a);
-        Color cb = new Color(b);
-        int red, green, blue;
-        
-        red = ca.getRed() + cb.getRed();
-        /*if(red > 255)
-            red = 255;*/
-        
-        green = ca.getGreen() + cb.getGreen();
-        /*if(green > 255)
-            green = 255;*/
-        
-        blue = ca.getBlue() + cb.getBlue();
-        /*if(blue > 255)
-            blue = 255;*/
-        
-        Color ret = new Color(red, green, blue);
-        return ret.getRGB();
-    }
-    
-    static int minusColor(int a, int b)
-    {
-        int tmp;
-        Color ca = new Color(a);
-        Color cb = new Color(b);
-        int red, green, blue;
-        
-        red = ca.getRed() - cb.getRed();
-        /*if(red < 0)
-            red = 0;*/
-        
-        green = ca.getGreen() - cb.getGreen();
-        /*if(green < 0)
-            green = 0;*/
-        
-        blue = ca.getBlue() - cb.getBlue();
-        /*if(blue < 0)
-            blue = 0;*/
-        
-        Color ret = new Color(red, green, blue);
-        return ret.getRGB();
-    }
-    
-    static int interpolation(double x, int x1, int f1, int x2, int f2)
-    {
+    //<editor-fold defaultstate="collapsed" desc="Autre">
+    static int interpolation(double x, int x1, int f1, int x2, int f2){
         Color c1 = new Color(f1);
         Color c2 = new Color(f2);
         int red1 = c1.getRed(), red2 = c2.getRed();
@@ -464,10 +424,10 @@ public class ColorImage{
         return tmp.getRGB();
     }
     
-    static int coord(int x, double deltax)
-    {
+    static int coord(int x, double deltax){
         int tmp;
         tmp = (int) Math.floor(x / deltax);
         return tmp;
     }
+    //</editor-fold>
 }

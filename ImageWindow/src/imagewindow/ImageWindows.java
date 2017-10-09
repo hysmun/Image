@@ -27,7 +27,7 @@ public class ImageWindows extends javax.swing.JFrame {
     /**
      * Creates new form ImageWindows
      */
-    
+    //<editor-fold defaultstate="collapsed" desc="variable ">
     public static String ImagePath;
     public static String ImageName;
     public BufferedImage bufImage;
@@ -36,7 +36,9 @@ public class ImageWindows extends javax.swing.JFrame {
     public static int state;
     
     public ColorImage CI;
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Init + ImageWindows()">
     public ImageWindows() {
         initComponents();
     }
@@ -284,18 +286,19 @@ public class ImageWindows extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    //</editor-fold>
+    
     private void OpenItemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpenItemMousePressed
-        // TODO add your handling code here:
+        // <editor-fold defaultstate="collapsed" desc=" OpenItemMousePressed ">
+// TODO add your handling code here:
         System.out.println("Open Item");
         FileChooseImage fci = new FileChooseImage(this, true);
         fci.setVisible(true);
         
-        if(ImagePath != null && ImageName != null)
-        {
-            System.out.println("Fichier choisi" + ImagePath + "  "+ ImageName);
+        if (ImagePath != null && ImageName != null) {
+            System.out.println("Fichier choisi" + ImagePath + "  " + ImageName);
             try {
-                //fichier juste on l'affiche
+                // <editor-fold defaultstate="collapsed" desc=" Chargement image et init CI ">
                 File f = new File(ImagePath);
                 bufImage = ImageIO.read(f);
                 
@@ -306,110 +309,102 @@ public class ImageWindows extends javax.swing.JFrame {
                 AfterLabelIcon.setIcon(Iafter);
                 jSpinner1.setValue(bufImage.getWidth());
                 jSpinner2.setValue(bufImage.getHeight());
-                state= 0;
-            }
-            catch (Exception ex) {
-
+                state = 0;
+// </editor-fold>
+            } catch (Exception ex) {
+                
                 System.out.println("Erreur IO" + ex.getMessage());
-            } 
+            }            
         }
+// </editor-fold>
     }//GEN-LAST:event_OpenItemMousePressed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        // TODO add your handling code here:
+        // <editor-fold defaultstate="collapsed" desc=" okButtonActionPerformed ">
+// TODO add your handling code here:
         stateLabel.setText("Travail en cours");
         
-        try
-        {
+        try {
             System.out.println("OK");
             CI.setBi(bufImage);
-            if(((String)editCB.getSelectedItem()).equals("Taille"))
-            {
-                CI.setSize((int)jSpinner1.getValue(), (int)jSpinner2.getValue());
+            if (((String) editCB.getSelectedItem()).equals("Taille")) {
+                CI.setSize((int) jSpinner1.getValue(), (int) jSpinner2.getValue());
             }
-            if(((String)editCB.getSelectedItem()).equals("ROI") )
-            {
-                if(state == 2)
-                {
+            if (((String) editCB.getSelectedItem()).equals("ROI")) {
+                if (state == 2) {
                     CI.ROI(x1tmp, y1tmp, x2tmp, y2tmp);
                     state = 0;
                 }
             }
-            if(((String)editCB.getSelectedItem()).equals("Palette"))
-            {
-                if(state == 1)
-                {
-                    CI.palette(x1tmp, y1tmp, (int)jSpinner1.getValue(), (int)jSpinner2.getValue(), (int)jSpinner3.getValue());
+            if (((String) editCB.getSelectedItem()).equals("Palette")) {
+                if (state == 1) {
+                    CI.palette(x1tmp, y1tmp, (int) jSpinner1.getValue(), (int) jSpinner2.getValue(), (int) jSpinner3.getValue());
                     state = 0;
                 }
             }
-            if(((String)editCB.getSelectedItem()).equals("Expansion (agrandir)"))
-            {
+            if (((String) editCB.getSelectedItem()).equals("Expansion (agrandir)")) {
                 //expansion
-                CI.expansion((double)doubleSpinner1.getValue(), (double)doubleSpinner2.getValue());
+                CI.expansion((double) doubleSpinner1.getValue(), (double) doubleSpinner2.getValue());
             }
-            if(((String)editCB.getSelectedItem()).equals("Extraction (retrecir)"))
-            {
+            if (((String) editCB.getSelectedItem()).equals("Extraction (retrecir)")) {
                 //extraction retrecir
-                CI.extraction((double)doubleSpinner1.getValue(), (double)doubleSpinner2.getValue());
+                CI.extraction((double) doubleSpinner1.getValue(), (double) doubleSpinner2.getValue());
             }
-            if(((String)editCB.getSelectedItem()).equals("Seuillage"))
-            {
-                CI.Seuillage((int)jSpinner1.getValue());
+            if (((String) editCB.getSelectedItem()).equals("Seuillage")) {
+                CI.Seuillage((int) jSpinner1.getValue());
             }
-            if(((String)editCB.getSelectedItem()).equals("Multi-seuillage"))
-            {
-                int[] ttmp  = new int[3];
-                ttmp[0] = (int)jSpinner1.getValue();
-                ttmp[1] = (int)jSpinner2.getValue();
-                ttmp[2] = (int)jSpinner3.getValue();
+            if (((String) editCB.getSelectedItem()).equals("Multi-seuillage")) {
+                int[] ttmp = new int[3];
+                ttmp[0] = (int) jSpinner1.getValue();
+                ttmp[1] = (int) jSpinner2.getValue();
+                ttmp[2] = (int) jSpinner3.getValue();
                 CI.MultiSeuillage(ttmp);
             }
-            if(((String)editCB.getSelectedItem()).equals("Egalisation"))
-            {
+            if (((String) editCB.getSelectedItem()).equals("Egalisation")) {
                 CI.Egalisation();
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Erreur Image :" + e.getMessage() + "\n\n");
             System.out.println(e.getStackTrace());
         }
         
         RefreshAfter();
         stateLabel.setText("En attente de travail");
+// </editor-fold>
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void BeforeLabelIconMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BeforeLabelIconMouseReleased
-        // TODO add your handling code here:
-        if(((String)editCB.getSelectedItem()).equals("ROI") && state != 2)
-        {
-            if(state == 0)
-            {
+        // <editor-fold defaultstate="collapsed" desc=" BeforeLabelIconMouseReleased ">
+// TODO add your handling code here:
+        if (((String) editCB.getSelectedItem()).equals("ROI") && state != 2) {
+            // <editor-fold defaultstate="collapsed" desc=" ROI ">
+            if (state == 0) {
                 x1tmp = evt.getX();
                 y1tmp = evt.getY();
-            }
-            else
-            {
+            } else {
                 x2tmp = evt.getX();
                 y2tmp = evt.getY();
             }
             state++;
+            // </editor-fold>      
         }
-        if(((String)editCB.getSelectedItem()).equals("Palette"))
-        {
+        if (((String) editCB.getSelectedItem()).equals("Palette")) {
+            //<editor-fold defaultstate="collapsed" desc="Palette">
             x1tmp = evt.getX();
             y1tmp = evt.getY();
             Color tmpC = new Color(bufImage.getRGB(x1tmp, y1tmp));
             jSpinner1.setValue(tmpC.getRed());
             jSpinner2.setValue(tmpC.getGreen());
             jSpinner3.setValue(tmpC.getBlue());
-            state=1;
+            state = 1;
+            //</editor-fold>
         }
+// </editor-fold>
     }//GEN-LAST:event_BeforeLabelIconMouseReleased
 
     private void validateButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validateButtonMousePressed
-        // TODO add your handling code here:
+        // <editor-fold defaultstate="collapsed" desc=" validateButtonMousePressed ">
+// TODO add your handling code here:
         bufImage = new BufferedImage(CI.bi.getWidth(), CI.bi.getHeight(), CI.bi.getType());
         Graphics g = bufImage.getGraphics();
         g.drawImage(CI.bi, 0, 0, null);
@@ -418,17 +413,21 @@ public class ImageWindows extends javax.swing.JFrame {
         BeforeLabelIcon.setIcon(Ibefore);
         jSpinner1.setValue(bufImage.getWidth());
         jSpinner2.setValue(bufImage.getHeight());
-        state=0;
+        state = 0;
         System.out.println("Valider");
+// </editor-fold>
     }//GEN-LAST:event_validateButtonMousePressed
 
+    //<editor-fold defaultstate="collapsed" desc="grisButtonMouseReleased">
     private void grisButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grisButtonMouseReleased
         // TODO add your handling code here:
         CI.toGrey();
         RefreshAfter();
         System.out.println("Gris");
     }//GEN-LAST:event_grisButtonMouseReleased
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="histoButtonMouseRelease">
     private void histoButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_histoButtonMouseReleased
         // TODO add your handling code here:
         System.out.println("Histo");
@@ -450,7 +449,9 @@ public class ImageWindows extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Il faut d'abort passer l'image en nuance de gris", "Erreur", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_histoButtonMouseReleased
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Menu rapide">
     private void lenaMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lenaMenuMouseClicked
         // TODO add your handling code here:
         try {
@@ -559,7 +560,9 @@ public class ImageWindows extends javax.swing.JFrame {
                 System.out.println("Erreur IO" + ex.getMessage());
             } 
     }//GEN-LAST:event_testGrisMenuMouseClicked
-
+    //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="editCBActionPerformed">
     private void editCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCBActionPerformed
         // TODO add your handling code here:
         jSpinner1.setValue(0);
@@ -574,13 +577,16 @@ public class ImageWindows extends javax.swing.JFrame {
         }
         state=0;
     }//GEN-LAST:event_editCBActionPerformed
+    // </editor-fold>
     
-    public void RefreshAfter()
-    {
+    // <editor-fold defaultstate="collapsed" desc=" RefreshAfter ">
+    public void RefreshAfter() {
         ImageIcon Iafter = new ImageIcon(CI.bi);
         AfterLabelIcon.setIcon(Iafter);
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc=" Main avec le run ">
     /**
      * @param args the command line arguments
      */
@@ -615,7 +621,9 @@ public class ImageWindows extends javax.swing.JFrame {
             }
         });
     }
+// </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="VAR DECLARATION">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AfterLabelIcon;
     private javax.swing.JScrollPane AfterScroll;
@@ -644,4 +652,5 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JMenu testMenu;
     private javax.swing.JButton validateButton;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold>
 }
