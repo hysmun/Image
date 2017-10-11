@@ -456,7 +456,7 @@ public class ImageWindows extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
                 //fichier juste on l'affiche
-                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Lena-Soderberg-512x512.jpg";
+                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Lena512x512.jpg";
                 System.out.println("Lena normal choisi");
                 File f = new File(ImagePath);
                 bufImage = ImageIO.read(f);
@@ -482,7 +482,7 @@ public class ImageWindows extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
                 //fichier juste on l'affiche
-                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Lena-Soderberg-512x512.jpg";
+                ImagePath = "C:\\Users\\'Toine\\Documents\\Picture\\Lena512x512.jpg";
                 System.out.println("Lena gris choisi");
                 File f = new File(ImagePath);
                 bufImage = ImageIO.read(f);

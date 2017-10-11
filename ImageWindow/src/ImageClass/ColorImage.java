@@ -219,7 +219,7 @@ public class ColorImage{
             for(j=0; j<bi.getHeight(); j++)
             {
                 Color tmpC = new Color(bi.getRGB(i, j));
-                tmp = (tmpC.getRed() + tmpC.getGreen() + tmpC.getBlue())/3;
+                tmp = (int)(0.2989*tmpC.getRed() + 0.5870*tmpC.getGreen() + 0.1140*tmpC.getBlue());
                 setGrey(i, j, tmp);
             }
         }
@@ -387,6 +387,7 @@ public class ColorImage{
         {
             freq[i+1] += freq[i];
         }
+        freq[freq.length-1] = (wid * hei);
         
         for(i=0; i<wid; i++)
         {
