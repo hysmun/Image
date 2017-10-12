@@ -219,11 +219,16 @@ public class ColorImage{
             for(j=0; j<bi.getHeight(); j++)
             {
                 Color tmpC = new Color(bi.getRGB(i, j));
-                tmp = (int)(0.2989*tmpC.getRed() + 0.5870*tmpC.getGreen() + 0.1140*tmpC.getBlue());
+                tmp = (int)(0.21*tmpC.getRed() + 0.72*tmpC.getGreen() + 0.07*tmpC.getBlue());
                 setGrey(i, j, tmp);
             }
         }
         type = 2;
+        BufferedImage tmpBuf = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+        Graphics g = tmpBuf.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        setBi(tmpBuf);
     }
 //</editor-fold>
     
