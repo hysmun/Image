@@ -295,6 +295,11 @@ public class ColorImage{
         {
             g.drawLine(i*2+border+1, h-border, i*2+border+1, h-border-(freq[i] / facteur));
             g.drawLine(i*2+border, h-border, i*2+border, h-border-(freq[i] / facteur));
+            if(i%50 == 0)
+            {
+                g.drawLine(i*2+border, h-2, i*2+border, h-border);
+                g.drawString(""+i, i*2+border+2, h-(border/4));
+            }
         }
         g.drawString(""+max, 0, h-border-(max / facteur));
         
@@ -360,7 +365,14 @@ public class ColorImage{
             g.setColor(tmp);
             g.drawLine(i*2+border+1, h-border, i*2+border+1, h-border-(freqB[i] / facteur));
             g.drawLine(i*2+border, h-border, i*2+border, h-border-(freqB[i] / facteur));
+            if(i%50 == 0)
+            {
+                g.setColor(Color.BLACK);
+                g.drawLine(i*2+border, h-2, i*2+border, h-border);
+                g.drawString(""+i, i*2+border+2, h-(border/4));
+            }
         }
+        
         g.setColor(Color.BLACK);
         g.drawString(""+max, 0, h-border-(max / facteur));
         
