@@ -151,7 +151,7 @@ public class ImageWindows extends javax.swing.JFrame {
             }
         });
 
-        filtreCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "médian", "moyen", "Gaussien", "Laplacien", "Kirsh", "Sobel horizontal", "Sobel vertical", "Prewitt horizontal", "Prewitt vertical", "Roberts" }));
+        filtreCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "médian", "moyen", "Gaussien", "Laplacien", "Kirsh", "Sobel", "Prewitt", "Roberts" }));
         filtreCB.setEnabled(false);
 
         FileMenuBar.setText("File");
@@ -335,6 +335,9 @@ public class ImageWindows extends javax.swing.JFrame {
         try {
             System.out.println("OK");
             CI.setBi(bufImage);
+            
+            
+            // <editor-fold defaultstate="collapsed" desc="Partie 1 (taille, ROI, palette)">
             if (((String) editCB.getSelectedItem()).equals("Taille")) {
                 CI.setSize((int) jSpinner1.getValue(), (int) jSpinner2.getValue());
             }
@@ -350,6 +353,9 @@ public class ImageWindows extends javax.swing.JFrame {
                     state = 0;
                 }
             }
+            // </editor-fold>
+            
+            // <editor-fold defaultstate="collapsed" desc="Partie 2 (expansion, extration, seuil, histo, égalisation">
             if (((String) editCB.getSelectedItem()).equals("Expansion (agrandir)")) {
                 //expansion
                 CI.expansion((double) doubleSpinner1.getValue(), (double) doubleSpinner2.getValue());
@@ -371,32 +377,19 @@ public class ImageWindows extends javax.swing.JFrame {
             if (((String) editCB.getSelectedItem()).equals("Egalisation")) {
                 CI.Egalisation();
             }
+            // </editor-fold>
+            
+            // <editor-fold defaultstate="collapsed" desc="Partie 3 : Filtre">
             if (((String) editCB.getSelectedItem()).equals("Filtre")) {
                 //code
+                if (((String) filtreCB.getSelectedItem()).equals("médian")) {
+                //code
+                    CI.filtreMedian();
+                }
                 if (((String) filtreCB.getSelectedItem()).equals("moyen")) {
                 //code
                     int filtre[][] = new int[][]{{1,1,1},{1,1,1},{1,1,1}};
                     CI.filtre(filtre, 9);
-                }
-                if (((String) filtreCB.getSelectedItem()).equals("Prewitt vertical")) {
-                //code
-                    int filtre[][] = new int[][]{{-1,0,1},{-1,0,1},{-1,0,1}};
-                    CI.filtre(filtre, 1);
-                }
-                if (((String) filtreCB.getSelectedItem()).equals("Prewitt horizontal")) {
-                //code
-                    int filtre[][] = new int[][]{{-1,-1,-1},{0,0,0},{1,1,1}};
-                    CI.filtre(filtre, 1);
-                }
-                if (((String) filtreCB.getSelectedItem()).equals("Sobel vertical")) {
-                //code
-                    int filtre[][] = new int[][]{{-1,0,1},{-2,0,2},{-1,0,1}};
-                    CI.filtre(filtre, 1);
-                }
-                if (((String) filtreCB.getSelectedItem()).equals("Sobel horizontal")) {
-                //code
-                    int filtre[][] = new int[][]{{-1,-2,-1},{0,0,0},{1,2,1}};
-                    CI.filtre(filtre, 1);
                 }
                 if (((String) filtreCB.getSelectedItem()).equals("Laplacien")) {
                 //code
@@ -408,11 +401,42 @@ public class ImageWindows extends javax.swing.JFrame {
                     int filtre[][] = new int[][]{{1,2,3,2,1},{2,6,8,6,2},{3,8,10,8,3},{2,6,8,6,2},{1,2,3,2,1}};
                     CI.filtre(filtre, 98);
                 }
-                if (((String) filtreCB.getSelectedItem()).equals("médian")) {
+                if (((String) filtreCB.getSelectedItem()).equals("Prewitt")) {
                 //code
-                    CI.filtreMedian();
+                    CI.filtrePrewitt();
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Sobel")) {
+                //code
+                    CI.filtreSobel();
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Roberts")) {
+                //code
+                    CI.filtreRoberts();
                 }
             }
+            // </editor-fold>
+            
+            // <editor-fold defaultstate="collapsed" desc="Partie 3 : Ero, dila, ouvert, fermer">
+            if (((String) editCB.getSelectedItem()).equals("Erosion")) {
+                //code
+            }
+            if (((String) editCB.getSelectedItem()).equals("Dilatation")) {
+                //code
+            }
+            if (((String) editCB.getSelectedItem()).equals("Ouverture")) {
+                //code
+            }
+            if (((String) editCB.getSelectedItem()).equals("Fermeture")) {
+                //code
+            }
+            // </editor-fold>
+            
+            // <editor-fold defaultstate="collapsed" desc="Option : Affinage des contours">
+            if (((String) editCB.getSelectedItem()).equals("Option : Affinage des contours")) {
+                //code
+            }
+            // </editor-fold>
+            
         } catch (Exception e) {
             System.out.println("Erreur Image :" + e.getMessage() + "\n\n");
             System.out.println(e.getStackTrace());

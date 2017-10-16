@@ -78,7 +78,8 @@ public class ColorImage{
     }
     
     public void setGrey(int i, int j, int grey){
-        Color tmp = new Color(grey, grey, grey);
+        int tmpi = ColorImage.colorBound(grey);
+        Color tmp = new Color(tmpi, tmpi, tmpi);
         bi.setRGB(i, j, tmp.getRGB());
     }
     
@@ -464,8 +465,7 @@ public class ColorImage{
         ROI(filtreMiddle-1, filtreMiddle-1, bi.getWidth()-filtreMiddle-1, bi.getHeight()-filtreMiddle-1);
     }
     
-    public void filtreMedian()
-    {
+    public void filtreMedian(){
         int i, j, k, l;
         int valeur=0;
         Color ctmp;
@@ -501,6 +501,194 @@ public class ColorImage{
                     Arrays.sort(array);
                       valeur = array[4];
                     setGrey(i, j, valeur);
+                }
+                /*catch(Exception e){
+                    //System.out.println("Erreur "+ e.getMessage());
+                }*/
+            }
+        }
+        ROI(1, 1, bi.getWidth()-1, bi.getHeight()-1);
+    }
+    
+    public void filtreRoberts(){
+        int i, j, k, l;
+        int valeur1=0, valeur2=0, valeur=0;
+        Color ctmp1, ctmp2;
+        int itmp;
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        int array[] = new int[8];
+        for(i=0; i<bi.getWidth()-1; i++)
+        {
+            for(j=0; j<bi.getHeight()-1; j++)
+            {
+                //try
+                {
+                    ctmp1 = new Color(tmpBi.getRGB(i, j));
+                    ctmp2 = new Color(tmpBi.getRGB(i+1, j+1));
+                    valeur1 = Math.abs(ctmp1.getRed() - ctmp2.getRed());
+                    
+                    ctmp1 = new Color(tmpBi.getRGB(i+1, j));
+                    ctmp2 = new Color(tmpBi.getRGB(i, j+1));
+                    valeur2 = Math.abs(ctmp1.getRed() - ctmp2.getRed());
+                    
+                    setGrey(i, j, ColorImage.colorBound(valeur1+valeur2));
+                }
+                /*catch(Exception e){
+                    //System.out.println("Erreur "+ e.getMessage());
+                }*/
+            }
+        }
+        ROI(0, 0, bi.getWidth()-1, bi.getHeight()-1);
+    }
+    
+    public void filtreKirsh(){
+        int i, j, k, l;
+        int valeur=0;
+        Color ctmp;
+        int itmp;
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        int array[] = new int[8];
+        for(i=1; i<bi.getWidth()-1; i++)
+        {
+            for(j=1; j<bi.getHeight()-1; j++)
+            {
+                //try
+                {
+                    valeur = 0;
+                    for(k=0; k<3;k++)
+                    {
+                        for(l=0; l<3;l++)
+                        {
+                            //code
+                            try
+                            {
+                                ctmp = new Color(tmpBi.getRGB(i+k-1, j+l-1));
+                                array[(k*3)+l]= ctmp.getRed();
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){}
+                        }
+                    }
+                    Arrays.sort(array);
+                      valeur = array[4];
+                    setGrey(i, j, valeur);
+                }
+                /*catch(Exception e){
+                    //System.out.println("Erreur "+ e.getMessage());
+                }*/
+            }
+        }
+        ROI(1, 1, bi.getWidth()-1, bi.getHeight()-1);
+    }
+    
+    public void filtreSobel(){
+        int i, j, k, l;
+        int valeurX=0, valeurY=0, valeur=0;
+        Color ctmp;
+        int itmp;
+        int filtreX[][] = new int[][]{{-1,0,1},{-2,0,2},{-1,0,1}};
+        int filtreY[][] = new int[][]{{-1,-2,-1},{0,0,0},{1,2,1}};
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        int array[] = new int[8];
+        for(i=1; i<bi.getWidth()-1; i++)
+        {
+            for(j=1; j<bi.getHeight()-1; j++)
+            {
+                //try
+                {
+                    valeur = 0;
+                    valeurX=0;
+                    valeurY=0;
+                    for(k=0; k<3;k++)
+                    {
+                        for(l=0; l<3;l++)
+                        {
+                            //code
+                            try
+                            {
+                                ctmp = new Color(tmpBi.getRGB(i+k-1, j+l-1));
+                                valeurX += filtreX[k][l] * ctmp.getRed();
+                                valeurY += filtreY[k][l] * ctmp.getRed();
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){}
+                        }
+                    }
+                    valeur = (int) Math.sqrt(valeurX*valeurX+valeurY*valeurY);
+                    setGrey(i, j, ColorImage.colorBound(valeur));
+                }
+                /*catch(Exception e){
+                    //System.out.println("Erreur "+ e.getMessage());
+                }*/
+            }
+        }
+        ROI(1, 1, bi.getWidth()-1, bi.getHeight()-1);
+    }
+    
+    public void filtrePrewitt(){
+        int i, j, k, l;
+        int valeurX=0, valeurY=0, valeur=0;
+        Color ctmp;
+        int itmp;
+        int filtreX[][] = new int[][]{{-1,0,1},{-1,0,1},{-1,0,1}};
+        int filtreY[][] = new int[][]{{-1,-1,-1},{0,0,0},{1,1,1}};
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        int array[] = new int[8];
+        for(i=1; i<bi.getWidth()-1; i++)
+        {
+            for(j=1; j<bi.getHeight()-1; j++)
+            {
+                //try
+                {
+                    valeur = 0;
+                    valeurX=0;
+                    valeurY=0;
+                    for(k=0; k<3;k++)
+                    {
+                        for(l=0; l<3;l++)
+                        {
+                            //code
+                            try
+                            {
+                                ctmp = new Color(tmpBi.getRGB(i+k-1, j+l-1));
+                                valeurX += filtreX[k][l] * ctmp.getRed();
+                                valeurY += filtreY[k][l] * ctmp.getRed();
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){}
+                        }
+                    }
+                    valeur = (int) Math.sqrt(valeurX*valeurX+valeurY*valeurY);
+                    setGrey(i, j, ColorImage.colorBound(valeur));
                 }
                 /*catch(Exception e){
                     //System.out.println("Erreur "+ e.getMessage());

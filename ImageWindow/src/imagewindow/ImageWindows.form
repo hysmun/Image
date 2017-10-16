@@ -330,17 +330,15 @@
     <Component class="javax.swing.JComboBox" name="filtreCB">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="10">
+          <StringArray count="8">
             <StringItem index="0" value="m&#xe9;dian"/>
             <StringItem index="1" value="moyen"/>
             <StringItem index="2" value="Gaussien"/>
             <StringItem index="3" value="Laplacien"/>
             <StringItem index="4" value="Kirsh"/>
-            <StringItem index="5" value="Sobel horizontal"/>
-            <StringItem index="6" value="Sobel vertical"/>
-            <StringItem index="7" value="Prewitt horizontal"/>
-            <StringItem index="8" value="Prewitt vertical"/>
-            <StringItem index="9" value="Roberts"/>
+            <StringItem index="5" value="Sobel"/>
+            <StringItem index="6" value="Prewitt"/>
+            <StringItem index="7" value="Roberts"/>
           </StringArray>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
