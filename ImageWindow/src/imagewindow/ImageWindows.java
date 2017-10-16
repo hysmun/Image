@@ -70,6 +70,7 @@ public class ImageWindows extends javax.swing.JFrame {
         stateLabel = new javax.swing.JLabel();
         grisButton = new javax.swing.JButton();
         histoButton = new javax.swing.JButton();
+        filtreCB = new javax.swing.JComboBox<>();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
@@ -116,7 +117,7 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterLabelIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         AfterScroll.setViewportView(AfterLabelIcon);
 
-        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation" }));
+        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation", "Filtre" }));
         editCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCBActionPerformed(evt);
@@ -149,6 +150,9 @@ public class ImageWindows extends javax.swing.JFrame {
                 histoButtonMouseReleased(evt);
             }
         });
+
+        filtreCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "médian", "moyen", "Gaussien", "Laplacien", "Kirsh", "Sobel horizontal", "Sobel vertical", "Prewitt horizontal", "Prewitt vertical", "Roberts" }));
+        filtreCB.setEnabled(false);
 
         FileMenuBar.setText("File");
 
@@ -213,7 +217,9 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addGap(108, 108, 108)
                         .addComponent(histoButton)
                         .addGap(185, 185, 185)
-                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(filtreCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,8 +265,10 @@ public class ImageWindows extends javax.swing.JFrame {
                             .addComponent(histoButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24)
+                        .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(filtreCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AfterScroll)
                     .addGroup(layout.createSequentialGroup()
@@ -362,6 +370,48 @@ public class ImageWindows extends javax.swing.JFrame {
             }
             if (((String) editCB.getSelectedItem()).equals("Egalisation")) {
                 CI.Egalisation();
+            }
+            if (((String) editCB.getSelectedItem()).equals("Filtre")) {
+                //code
+                if (((String) filtreCB.getSelectedItem()).equals("moyen")) {
+                //code
+                    int filtre[][] = new int[][]{{1,1,1},{1,1,1},{1,1,1}};
+                    CI.filtre(filtre, 9);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Prewitt vertical")) {
+                //code
+                    int filtre[][] = new int[][]{{-1,0,1},{-1,0,1},{-1,0,1}};
+                    CI.filtre(filtre, 1);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Prewitt horizontal")) {
+                //code
+                    int filtre[][] = new int[][]{{-1,-1,-1},{0,0,0},{1,1,1}};
+                    CI.filtre(filtre, 1);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Sobel vertical")) {
+                //code
+                    int filtre[][] = new int[][]{{-1,0,1},{-2,0,2},{-1,0,1}};
+                    CI.filtre(filtre, 1);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Sobel horizontal")) {
+                //code
+                    int filtre[][] = new int[][]{{-1,-2,-1},{0,0,0},{1,2,1}};
+                    CI.filtre(filtre, 1);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Laplacien")) {
+                //code
+                    int filtre[][] = new int[][]{{0,1,0},{1,-4,1},{0,1,0}};
+                    CI.filtre(filtre, 1);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("Gaussien")) {
+                //code
+                    int filtre[][] = new int[][]{{1,2,3,2,1},{2,6,8,6,2},{3,8,10,8,3},{2,6,8,6,2},{1,2,3,2,1}};
+                    CI.filtre(filtre, 98);
+                }
+                if (((String) filtreCB.getSelectedItem()).equals("médian")) {
+                //code
+                    CI.filtreMedian();
+                }
             }
         } catch (Exception e) {
             System.out.println("Erreur Image :" + e.getMessage() + "\n\n");
@@ -575,6 +625,14 @@ public class ImageWindows extends javax.swing.JFrame {
             jSpinner1.setValue(bufImage.getWidth());
             jSpinner2.setValue(bufImage.getHeight());
         }
+        if(((String)editCB.getSelectedItem()).equals("Filtre"))
+        {
+            filtreCB.setEnabled(true);
+        }
+        else
+        {
+            filtreCB.setEnabled(false);
+        }
         state=0;
     }//GEN-LAST:event_editCBActionPerformed
     // </editor-fold>
@@ -639,6 +697,7 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JSpinner doubleSpinner1;
     private javax.swing.JSpinner doubleSpinner2;
     private javax.swing.JComboBox<String> editCB;
+    private javax.swing.JComboBox<String> filtreCB;
     private javax.swing.JButton grisButton;
     private javax.swing.JButton histoButton;
     private javax.swing.JSpinner jSpinner1;

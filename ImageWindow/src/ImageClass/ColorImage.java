@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /**
  *
@@ -416,6 +417,101 @@ public class ColorImage{
     }
 //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="filtre">
+    public void filtre(int filtre[][], int diviseur)
+    {
+        int i, j, k, l;
+        int filtreLength = filtre.length;
+        int filtreMiddle = ((int)(filtreLength/2))+1;
+        int valeur=0;
+        Color ctmp;
+        int itmp;
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        for(i=filtreMiddle-1; i<bi.getWidth()-filtreMiddle-1; i++)
+        {
+            for(j=filtreMiddle-1; j<bi.getHeight()-filtreMiddle-1; j++)
+            {
+                try
+                {
+                valeur = 0;
+                for(k=0; k<filtreLength;k++)
+                {
+                    for(l=0; l<filtreLength;l++)
+                    {
+                        //code
+                        try
+                        {
+                            ctmp = new Color(tmpBi.getRGB(i-filtreMiddle+k+1, j-filtreMiddle+l+1));
+                            valeur += filtre[k][l] * ctmp.getRed();
+                        }
+                        catch(ArrayIndexOutOfBoundsException e){}
+                    }
+                }
+                //valeur = valeur/diviseur;
+                setGrey(i, j, ColorImage.colorBound((int)(valeur/diviseur)));
+                }
+                catch(Exception e){
+                //System.out.println("Erreur "+ e.getMessage());
+                }
+            }
+        }
+        ROI(filtreMiddle-1, filtreMiddle-1, bi.getWidth()-filtreMiddle-1, bi.getHeight()-filtreMiddle-1);
+    }
+    
+    public void filtreMedian()
+    {
+        int i, j, k, l;
+        int valeur=0;
+        Color ctmp;
+        int itmp;
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        int array[] = new int[9];
+        for(i=1; i<bi.getWidth()-1; i++)
+        {
+            for(j=1; j<bi.getHeight()-1; j++)
+            {
+                //try
+                {
+                    valeur = 0;
+                    for(k=0; k<3;k++)
+                    {
+                        for(l=0; l<3;l++)
+                        {
+                            //code
+                            try
+                            {
+                                ctmp = new Color(tmpBi.getRGB(i+k-1, j+l-1));
+                                array[(k*3)+l]= ctmp.getRed();
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){}
+                        }
+                    }
+                    Arrays.sort(array);
+                      valeur = array[4];
+                    setGrey(i, j, valeur);
+                }
+                /*catch(Exception e){
+                    //System.out.println("Erreur "+ e.getMessage());
+                }*/
+            }
+        }
+        ROI(1, 1, bi.getWidth()-1, bi.getHeight()-1);
+    }
+//</editor-fold>
+    
+    
     //<editor-fold defaultstate="collapsed" desc="Autre">
     static int interpolation(double x, int x1, int f1, int x2, int f2){
         Color c1 = new Color(f1);
@@ -446,6 +542,15 @@ public class ColorImage{
         int tmp;
         tmp = (int) Math.floor(x / deltax);
         return tmp;
+    }
+    
+    static int colorBound(int a)
+    {
+        if(a> 255)
+            return 255;
+        if(a<0)
+            return 0;
+        return a;
     }
     //</editor-fold>
 }
