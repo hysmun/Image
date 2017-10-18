@@ -419,8 +419,7 @@ public class ColorImage{
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="filtre">
-    public void filtre(int filtre[][], int diviseur)
-    {
+    public void filtre(int filtre[][], int diviseur){
         int i, j, k, l;
         int filtreLength = filtre.length;
         int filtreMiddle = ((int)(filtreLength/2))+1;
