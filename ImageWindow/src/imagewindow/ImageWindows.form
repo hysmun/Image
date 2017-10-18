@@ -90,9 +90,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="BeforeLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
                       <Component id="grisButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="invertButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="histoButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="185" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -155,6 +157,7 @@
                           <Component id="validateButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="grisButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="histoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="invertButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -262,7 +265,7 @@
     <Component class="javax.swing.JComboBox" name="editCB">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="9">
+          <StringArray count="13">
             <StringItem index="0" value="Taille"/>
             <StringItem index="1" value="ROI"/>
             <StringItem index="2" value="Palette"/>
@@ -272,6 +275,10 @@
             <StringItem index="6" value="Multi-seuillage"/>
             <StringItem index="7" value="Egalisation"/>
             <StringItem index="8" value="Filtre"/>
+            <StringItem index="9" value="Erosion"/>
+            <StringItem index="10" value="Dilatation"/>
+            <StringItem index="11" value="Ouverture"/>
+            <StringItem index="12" value="Fermeture"/>
           </StringArray>
         </Property>
       </Properties>
@@ -346,6 +353,14 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="invertButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="invert"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="invertButtonMousePressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

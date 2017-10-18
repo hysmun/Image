@@ -698,6 +698,113 @@ public class ColorImage{
     }
 //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Erosion Dilatation">
+    public void erode(int filtre[][])
+    {
+        int i, j, k, l;
+        
+        int valeur=0, valeurToHave=0;
+        Color ctmp;
+        int itmp;
+        int filtreLength = filtre.length;
+        int filtreMiddle = ((int)(filtreLength/2))+1;
+        
+        for(k=0; k<filtreLength;k++)
+        {
+            for(l=0; l<filtreLength;l++)
+            {
+                if(filtre[k][l] == 1)
+                    valeurToHave++;
+            }
+        }
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        for(i=filtreMiddle; i<bi.getWidth()-filtreMiddle; i++)
+        {
+            for(j=filtreMiddle; j<bi.getHeight()-filtreMiddle; j++)
+            {
+                try
+                {
+                    valeur = 0;
+                    for(k=0; k<filtreLength;k++)
+                    {
+                        for(l=0; l<filtreLength;l++)
+                        {
+                            //code
+                            try
+                            {
+                                ctmp = new Color(tmpBi.getRGB(i-filtreMiddle+k+1, j-filtreMiddle+l+1));
+                                if(filtre[k][l] == 1 && ctmp.getRed() == 0)
+                                {
+                                    valeur++;
+                                }
+                            }
+                            catch(ArrayIndexOutOfBoundsException e){}
+                        }
+                    }
+                    //valeur = valeur/diviseur;
+                    if(valeur == valeurToHave)
+                        setGrey(i, j, 0);
+                    else
+                        setGrey(i, j, 255);
+                }
+                catch(Exception e){
+                //System.out.println("Erreur "+ e.getMessage());
+                }
+            }
+        }
+    }
+    public void dilation(int filtre[][])
+    {
+        int i, j, k, l;
+        int filtreLength = filtre.length;
+        int filtreMiddle = ((int)(filtreLength/2))+1;
+        int valeur=0;
+        Color ctmp;
+        int itmp;
+        
+        BufferedImage tmpBi = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+        Graphics g = tmpBi.getGraphics();
+        g.drawImage(bi, 0, 0, null);
+        g.dispose();
+        
+        //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
+        for(i=filtreMiddle-1; i<bi.getWidth()-filtreMiddle-1; i++)
+        {
+            for(j=filtreMiddle-1; j<bi.getHeight()-filtreMiddle-1; j++)
+            {
+                try
+                {
+                    ctmp = new Color(tmpBi.getRGB(i, j));
+                    if(ctmp.getRed() == 0)
+                    {
+                        for(k=0; k<filtreLength;k++)
+                        {
+                            for(l=0; l<filtreLength;l++)
+                            {
+                                //code
+                                try
+                                {
+                                    setGrey(i-filtreMiddle-1+k, j-filtreMiddle-1+l, 0);       
+                                }
+                                catch(ArrayIndexOutOfBoundsException e){}
+                            }
+                        }
+                    }
+                }
+                catch(Exception e){
+                //System.out.println("Erreur "+ e.getMessage());
+                }
+            }
+        }
+        ROI(filtreMiddle-1, filtreMiddle-1, bi.getWidth()-filtreMiddle-1, bi.getHeight()-filtreMiddle-1);
+    }
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Autre">
     static int interpolation(double x, int x1, int f1, int x2, int f2){
@@ -738,6 +845,18 @@ public class ColorImage{
         if(a<0)
             return 0;
         return a;
+    }
+    
+    public void invert()
+    {
+       int i, j;
+        for(i=0; i<bi.getWidth(); i++)
+        {
+            for(j=0; j<bi.getHeight(); j++)
+            {
+                setGrey(i, j, 255-getGrey(i, j));
+            }
+        }
     }
     //</editor-fold>
 }

@@ -71,6 +71,7 @@ public class ImageWindows extends javax.swing.JFrame {
         grisButton = new javax.swing.JButton();
         histoButton = new javax.swing.JButton();
         filtreCB = new javax.swing.JComboBox<>();
+        invertButton = new javax.swing.JButton();
         MenuBar = new javax.swing.JMenuBar();
         FileMenuBar = new javax.swing.JMenu();
         OpenItem = new javax.swing.JMenuItem();
@@ -117,7 +118,7 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterLabelIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         AfterScroll.setViewportView(AfterLabelIcon);
 
-        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation", "Filtre" }));
+        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation", "Filtre", "Erosion", "Dilatation", "Ouverture", "Fermeture" }));
         editCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCBActionPerformed(evt);
@@ -153,6 +154,13 @@ public class ImageWindows extends javax.swing.JFrame {
 
         filtreCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "médian", "moyen", "Gaussien", "Laplacien", "Kirsh", "Sobel", "Prewitt", "Roberts" }));
         filtreCB.setEnabled(false);
+
+        invertButton.setText("invert");
+        invertButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                invertButtonMousePressed(evt);
+            }
+        });
 
         FileMenuBar.setText("File");
 
@@ -212,9 +220,11 @@ public class ImageWindows extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(116, 116, 116)
                         .addComponent(grisButton)
-                        .addGap(108, 108, 108)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(invertButton)
+                        .addGap(28, 28, 28)
                         .addComponent(histoButton)
                         .addGap(185, 185, 185)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -262,7 +272,8 @@ public class ImageWindows extends javax.swing.JFrame {
                             .addComponent(NowLabel)
                             .addComponent(validateButton)
                             .addComponent(grisButton)
-                            .addComponent(histoButton)))
+                            .addComponent(histoButton)
+                            .addComponent(invertButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -419,15 +430,25 @@ public class ImageWindows extends javax.swing.JFrame {
             // <editor-fold defaultstate="collapsed" desc="Partie 3 : Ero, dila, ouvert, fermer">
             if (((String) editCB.getSelectedItem()).equals("Erosion")) {
                 //code
+                int filtre[][] = new int[][]{{0,1,0},{1,1,1},{0,1,0}};
+                CI.erode(filtre);
             }
             if (((String) editCB.getSelectedItem()).equals("Dilatation")) {
                 //code
+                int filtre[][] = new int[][]{{0,1,0},{1,1,1},{0,1,0}};
+                CI.dilation(filtre);
             }
             if (((String) editCB.getSelectedItem()).equals("Ouverture")) {
                 //code
+                int filtre[][] = new int[][]{{0,1,0},{1,1,1},{0,1,0}};
+                CI.erode(filtre);
+                CI.dilation(filtre);
             }
             if (((String) editCB.getSelectedItem()).equals("Fermeture")) {
                 //code
+                int filtre[][] = new int[][]{{0,1,0},{1,1,1},{0,1,0}};
+                CI.dilation(filtre);
+                CI.erode(filtre);
             }
             // </editor-fold>
             
@@ -659,6 +680,20 @@ public class ImageWindows extends javax.swing.JFrame {
         }
         state=0;
     }//GEN-LAST:event_editCBActionPerformed
+
+    private void invertButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invertButtonMousePressed
+        // TODO add your handling code here:
+        try {
+            System.out.println("Invert");
+            CI.setBi(bufImage);
+            CI.invert();
+        }
+        catch(Exception e){
+            System.out.println("Erreur Image :" + e.getMessage() + "\n\n");
+            System.out.println(e.getStackTrace());
+        }
+        RefreshAfter();
+    }//GEN-LAST:event_invertButtonMousePressed
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" RefreshAfter ">
@@ -724,6 +759,7 @@ public class ImageWindows extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> filtreCB;
     private javax.swing.JButton grisButton;
     private javax.swing.JButton histoButton;
+    private javax.swing.JButton invertButton;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
