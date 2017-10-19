@@ -424,6 +424,10 @@ public class ImageWindows extends javax.swing.JFrame {
                 //code
                     CI.filtreRoberts();
                 }
+                if (((String) filtreCB.getSelectedItem()).equals("Kirsh")) {
+                //code
+                    CI.filtreKirsh();
+                }
             }
             // </editor-fold>
             
