@@ -699,8 +699,7 @@ public class ColorImage{
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Erosion Dilatation">
-    public void erode(int filtre[][])
-    {
+    public void erode(int filtre[][]){
         int i, j, k, l;
         
         int valeur=0, valeurToHave=0;
@@ -759,8 +758,7 @@ public class ColorImage{
             }
         }
     }
-    public void dilation(int filtre[][])
-    {
+    public void dilation(int filtre[][]){
         int i, j, k, l;
         int filtreLength = filtre.length;
         int filtreMiddle = ((int)(filtreLength/2))+1;
