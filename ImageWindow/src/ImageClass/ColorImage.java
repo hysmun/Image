@@ -8,8 +8,9 @@ package ImageClass;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  *
@@ -549,8 +550,7 @@ public class ColorImage{
     }
     
     public void filtreKirsh(){
-        int i, j, k, l;
-        int valeur=0;
+        int i, j, k, l, filtrei;
         Color ctmp;
         int itmp;
         
@@ -559,6 +559,17 @@ public class ColorImage{
         g.drawImage(bi, 0, 0, null);
         g.dispose();
         
+        int filtre1[][] = new int[][]{{5,5,5},{-3,0,-3},{-3,-3,-3}};
+        int filtre2[][] = new int[][]{{5,5,-3},{5,0,-3},{-3,-3,-3}};
+        int filtre3[][] = new int[][]{{5,-3,-3},{5,0,-3},{5,-3,-3}};
+        int filtre4[][] = new int[][]{{-3,-3,-3},{5,0,-3},{5,5,-3}};
+        int filtre5[][] = new int[][]{{-3,-3,-3},{-3,0,-3},{5,5,5}};
+        int filtre6[][] = new int[][]{{-3,-3,-3},{-3,0,5},{-3,5,5}};
+        int filtre7[][] = new int[][]{{-3,-3,5},{-3,0,5},{-3,-3,5}};
+        int filtre8[][] = new int[][]{{-3,5,5},{-3,0,5},{-3,-3,-3}};
+        int[][] filtre[] = new int[][][]{filtre1, filtre2, filtre3, filtre4, filtre5, filtre6, filtre7, filtre8};
+        int valeur[] = new int[8];
+        int valeurMax;
         
         
         //System.out.println("Filtre : "+ filtreLength + " et : "+filtreMiddle);
@@ -569,26 +580,35 @@ public class ColorImage{
             {
                 //try
                 {
-                    valeur = 0;
+                    //remise a 0
+                    for(filtrei=0; filtrei<8;filtrei++)
+                    {
+                        valeur[filtrei] = 0;
+                    }
+                    //calcul des 8 filtre
                     for(k=0; k<3;k++)
                     {
                         for(l=0; l<3;l++)
                         {
-                            //code
-                            try
+                            for(filtrei=0; filtrei<8;filtrei++)
                             {
-                                ctmp = new Color(tmpBi.getRGB(i+k-1, j+l-1));
-                                array[(k*3)+l]= ctmp.getRed();
+                                //code
+                                try
+                                {
+                                    ctmp = new Color(tmpBi.getRGB(i+k-1, j+l-1));
+                                    valeur[filtrei] += filtre[filtrei][k][l]*ctmp.getRed();
+                                }
+                                catch(ArrayIndexOutOfBoundsException e){}
                             }
-                            catch(ArrayIndexOutOfBoundsException e){}
                         }
                     }
-                    Arrays.sort(array);
-                      valeur = array[4];
-                    setGrey(i, j, valeur);
+                    //trouver le max
+                    Arrays.sort(valeur);
+                    valeurMax = valeur[valeur.length-1];
+                    setGrey(i, j, valeurMax);
                 }
                 /*catch(Exception e){
-                    //System.out.println("Erreur "+ e.getMessage());
+                    System.out.println("Erreur "+ e.getMessage());
                 }*/
             }
         }
@@ -801,6 +821,91 @@ public class ColorImage{
             }
         }
         ROI(filtreMiddle-1, filtreMiddle-1, bi.getWidth()-filtreMiddle-1, bi.getHeight()-filtreMiddle-1);
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Zffinage des contours">
+    public void thinning(){
+        
+    }
+ 
+    final static int[][] nbrs = {{0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1},
+        {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}};
+ 
+    final static int[][][] nbrGroups = {{{0, 2, 4}, {2, 4, 6}}, {{0, 2, 6},
+        {0, 4, 6}}};
+ 
+    public void thinImage() {
+        boolean firstStep = false;
+        Color ctmp;
+        boolean hasChanged;
+        List<Point> toWhite = new ArrayList<>();
+        List<Integer[][]> listP = new ArrayList<>();
+        int iter=0;
+ 
+        do {
+            hasChanged = false;
+            firstStep = !firstStep;
+ 
+            for (int r = 1; r < bi.getWidth()- 1; r++) {
+                for (int c = 1; c < bi.getHeight()- 1; c++) {
+                    ctmp = new Color(bi.getRGB(r, c));
+                    if (ctmp.getRed() != 255)
+                        continue;
+ 
+                    int nn = numNeighbors(r, c);
+                    if (nn < 2 || nn > 6)
+                        continue;
+ 
+                    if (numTransitions(r, c) != 1)
+                        continue;
+ 
+                    if (!atLeastOneIsWhite(r, c, firstStep ? 0 : 1))
+                        continue;
+ 
+                    toWhite.add(new Point(r, c));
+                    hasChanged = true;
+                }
+                System.out.print(r + " ");
+            }
+            System.out.print("\niter = "+iter++ + " ");
+            for (Point p : toWhite)
+                setGrey((int)p.getX(), (int)p.getY(), 0);
+            toWhite.clear();
+ 
+        } while (firstStep || hasChanged);
+    }
+ 
+    public int numNeighbors(int r, int c) {
+        int count = 0;
+        for (int i = 0; i < nbrs.length - 1; i++)
+            if (getGrey(r + nbrs[i][1],c + nbrs[i][0]) == 255)
+                count++;
+        return count;
+    }
+ 
+    public int numTransitions(int r, int c) {
+        int count = 0;
+        for (int i = 0; i < nbrs.length - 1; i++)
+            if (getGrey(r + nbrs[i][1],c + nbrs[i][0]) == 0) {
+                if (getGrey(r + nbrs[i + 1][1],c + nbrs[i + 1][0]) == 255)
+                    count++;
+            }
+        return count;
+    }
+ 
+    public boolean atLeastOneIsWhite(int r, int c, int step) {
+        int count = 0;
+        int[][] group = nbrGroups[step];
+        for (int i = 0; i < 2; i++)
+            for (int j = 0; j < group[i].length; j++) {
+                int[] nbr = nbrs[group[i][j]];
+                if (getGrey(r + nbr[1],c + nbr[0]) == 0) {
+                    count++;
+                    break;
+                }
+            }
+        return count > 1;
     }
     //</editor-fold>
     

@@ -118,7 +118,7 @@ public class ImageWindows extends javax.swing.JFrame {
         AfterLabelIcon.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         AfterScroll.setViewportView(AfterLabelIcon);
 
-        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation", "Filtre", "Erosion", "Dilatation", "Ouverture", "Fermeture" }));
+        editCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Taille", "ROI", "Palette", "Expansion (agrandir)", "Extraction (retrecir)", "Seuillage", "Multi-seuillage", "Egalisation", "Filtre", "Erosion", "Dilatation", "Ouverture", "Fermeture", "Option : Affinage des contours" }));
         editCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCBActionPerformed(evt);
@@ -228,8 +228,8 @@ public class ImageWindows extends javax.swing.JFrame {
                         .addComponent(histoButton)
                         .addGap(185, 185, 185)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(filtreCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(editCB, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(filtreCB, 0, 138, Short.MAX_VALUE)
+                            .addComponent(editCB, 0, 0, Short.MAX_VALUE))
                         .addGap(44, 44, 44))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BeforeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 683, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -342,9 +342,11 @@ public class ImageWindows extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc=" okButtonActionPerformed ">
 // TODO add your handling code here:
         stateLabel.setText("Travail en cours");
+        stateLabel.invalidate();
+        this.revalidate();
         
         try {
-            System.out.println("OK");
+            System.out.println("OK : "+ ((String)editCB.getSelectedItem()));
             CI.setBi(bufImage);
             
             
@@ -459,6 +461,7 @@ public class ImageWindows extends javax.swing.JFrame {
             // <editor-fold defaultstate="collapsed" desc="Option : Affinage des contours">
             if (((String) editCB.getSelectedItem()).equals("Option : Affinage des contours")) {
                 //code
+                CI.thinImage();
             }
             // </editor-fold>
             
